@@ -1,0 +1,156 @@
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname ACCSW2
+!
+enable secret 5 $1$mERr$kiGzU4Kf6Zb9e78XybbFa0
+!
+!
+!
+ip ssh version 2
+ip domain-name wsl2024.org
+!
+username admin secret 5 $1$mERr$kiGzU4Kf6Zb9e78XybbFa0
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+ switchport access vlan 10
+!
+interface FastEthernet0/2
+ switchport access vlan 20
+!
+interface FastEthernet0/3
+ switchport access vlan 99
+!
+interface FastEthernet0/4
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/5
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/6
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/7
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface FastEthernet0/8
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/9
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/10
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/11
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/12
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/13
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/14
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/15
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/16
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/17
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/18
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/19
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/20
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/21
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/22
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/23
+ switchport access vlan 666
+ switchport mode access
+!
+interface FastEthernet0/24
+ switchport access vlan 666
+ switchport mode access
+!
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan99
+ ip address 10.2.99.3 255.255.255.248
+!
+banner motd # /!\ Acces interdit/!\ #
+!
+!
+!
+ip access-list extended SSH
+ permit ip 10.2.99.0 0.0.0.7 any
+line con 0
+!
+line vty 0 4
+ access-class SSH in
+ exec-timeout 0 5
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH in
+ exec-timeout 0 5
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+end
+

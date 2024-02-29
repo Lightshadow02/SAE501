@@ -1,0 +1,29 @@
+# Import du module Active Directory
+Import-Module ActiveDirectory
+
+# DÃ©finir l'unitÃ© organisationnelle (Ã  ajuster selon vos besoins)
+$ouPath = "CN=Users,DC=hq,DC=wsl2024,DC=org"
+
+# DÃ©finir les groupes
+$firstGroup = "FirstGroup"
+$lastGroup = "LastGroup"
+
+# Mot de passe commun Ã  tous les comptes
+$password = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+
+# Boucle pour crÃ©er 1000 utilisateurs
+for ($i = 1; $i -le 1000; $i++) {
+    # Formatage du numÃ©ro pour avoir trois chiffres (001, 002, ..., 1000)
+    $username = "wslusr" + "{0:D3}" -f $i
+
+ # CrÃ©er l'utilisateur dans l'unitÃ© organisationnelle spÃ©cifiÃ©e avec le mot de passe dÃ©fini
+    New-ADUser -Name $username -SamAccountName $username -UserPrincipalName "$username@wsl2024.org" -Path $ouPath -Enabled $true -PasswordNeverExpires $true -ChangePasswordAtLogon $false -AccountPassword $password | Out-Null
+    
+    
+    # RÃ©partir les utilisateurs entre les groupes
+    if ($i -le 500) {
+        Add-ADGroupMember -Identity $firstGroup -Members $username | Out-Null
+    } else {
+        Add-ADGroupMember -Identity $lastGroup -Members $username | Out-Null
+    }
+}
